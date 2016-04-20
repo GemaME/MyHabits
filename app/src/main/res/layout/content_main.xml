@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="58dp"
+        android:paddingBottom="8dp">
+
+        <include layout="@layout/card_time_weather"></include>
+        <include layout="@layout/card_reload"></include>
+        <include layout="@layout/card_location"></include>
+        <include layout="@layout/card_vehicle"></include>
+        <include layout="@layout/card_places"></include>
+
+    </LinearLayout>
+
+</ScrollView>
+
+
+
+

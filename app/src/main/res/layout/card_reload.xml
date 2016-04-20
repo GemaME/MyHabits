@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_updating"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardElevation="2dp"
+    android:layout_gravity="center"
+    card_view:cardCornerRadius="2dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginBottom="4dp"
+    android:layout_marginTop="4dp"
+    card_view:cardBackgroundColor="#006064">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/bullet_title_updating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/clock"/>
+
+        <TextView
+            android:id="@+id/title_updating"
+            android:text="@string/title_card_reload"
+            android:textColor="#FFF"
+            android:textSize="24sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bullet_title_updating"/>
+
+        <SeekBar
+            android:id="@+id/selector_time_updating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bullet_title_updating"/>
+
+        <TextView
+            android:id="@+id/time_updating"
+            android:text="@string/time_reload"
+            android:textColor="#FFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/selector_time_updating"/>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

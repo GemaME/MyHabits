@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_places"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardElevation="2dp"
+    android:layout_gravity="center"
+    card_view:cardCornerRadius="2dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginBottom="4dp"
+    android:layout_marginTop="4dp"
+    android:padding="4dp"
+    card_view:cardBackgroundColor="#673AB7">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/bullet_title_places"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/shop"/>
+
+        <TextView
+            android:id="@+id/title_places"
+            android:text="@string/title_card_places"
+            android:textColor="#FFF"
+            android:textSize="24sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bullet_title_places"/>
+
+
+        <!-- University -->
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/check_university"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title_places"
+            android:buttonTint="@color/colorAccent"/>
+
+        <TextView
+            android:id="@+id/check_label_university"
+            android:text="@string/check_university"
+            android:textColor="#FFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title_places"
+            android:layout_toRightOf="@+id/check_university"/>
+
+
+        <!-- Parking -->
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/check_parking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/check_university"/>
+
+        <TextView
+            android:id="@+id/check_label_parking"
+            android:text="@string/check_parking"
+            android:textColor="#FFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/check_university"
+            android:layout_toRightOf="@+id/check_parking"/>
+
+
+        <!-- Supermarket -->
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/check_supermarket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/check_parking"/>
+
+        <TextView
+            android:id="@+id/check_label_supermarket"
+            android:text="@string/check_supermarket"
+            android:textColor="#FFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/check_parking"
+            android:layout_toRightOf="@+id/check_supermarket"/>
+
+
+        <!-- Cafe & Bar -->
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/check_cafe_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/check_supermarket"/>
+
+        <TextView
+            android:id="@+id/check_label_cafe_bar"
+            android:text="@string/check_cafe_bar"
+            android:textColor="#FFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/check_supermarket"
+            android:layout_toRightOf="@+id/check_cafe_bar"/>
+
+
+        <!-- Restaurant -->
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/check_restaurant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/check_cafe_bar"/>
+
+        <TextView
+            android:id="@+id/check_label_restaurant"
+            android:text="@string/check_restaurant"
+            android:textColor="#FFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/check_cafe_bar"
+            android:layout_toRightOf="@+id/check_restaurant"/>
+
+
+        <!-- Main Library -->
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/check_library"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/check_restaurant"/>
+
+        <TextView
+            android:id="@+id/check_label_library"
+            android:text="@string/check_library"
+            android:textColor="#FFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/check_restaurant"
+            android:layout_toRightOf="@+id/check_library"/>
+
+
+        <!-- Tram stop -->
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/check_tram"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/check_library"/>
+
+        <TextView
+            android:id="@+id/check_label_tram"
+            android:text="@string/check_tram"
+            android:textColor="#FFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/check_library"
+            android:layout_toRightOf="@+id/check_tram"/>
+
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
