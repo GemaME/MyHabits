@@ -1,4 +1,4 @@
-package es.nekosoft.ejercicio01;
+package es.nekosoft.myhabits;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

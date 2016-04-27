@@ -1,1 +1,7 @@
 -- COLORS --
+
+location	#283593
+places		#673AB7
+reload		#006064
+weather		#F44336
+vehicle		#C51162

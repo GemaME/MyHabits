@@ -20,33 +20,33 @@
         android:padding="16dp">
 
         <ImageView
-            android:id="@+id/bullet_title_updating"
+            android:id="@+id/iv_bullet_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/clock"/>
 
         <TextView
-            android:id="@+id/title_updating"
+            android:id="@+id/tv_title_update"
             android:text="@string/title_card_reload"
             android:textColor="#FFF"
             android:textSize="24sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/bullet_title_updating"/>
+            android:layout_toRightOf="@+id/iv_bullet_update"/>
 
         <SeekBar
-            android:id="@+id/selector_time_updating"
+            android:id="@+id/sb_ubi_update"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/bullet_title_updating"/>
+            android:layout_below="@+id/iv_bullet_update"/>
 
         <TextView
-            android:id="@+id/time_updating"
+            android:id="@+id/sb_tv_ubi_update"
             android:text="@string/time_reload"
             android:textColor="#FFF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/selector_time_updating"/>
+            android:layout_below="@+id/sb_ubi_update"/>
 
     </RelativeLayout>
 

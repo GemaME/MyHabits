@@ -14,8 +14,7 @@
     <string name="toast_reload_empty">There is no new data</string>
     <string name="toast_reload_data">New entries available !!!</string>
 
-    <string name="time_time_weather">13:30</string>
-    <string name="temperature_time_weather">30ºC</string>
+    <string name="wea_example">---</string>
     <string name="check_time_weather">Send weather info</string>
 
     <string name="title_card_reload">Updating data</string>
@@ -25,7 +24,7 @@
     <string name="title_card_location">User location</string>
     <string name="check_location">Send location info</string>
 
-    <string name="title_card_vehicle">Transport</string>
+    <string name="title_card_act">Activity</string>
     <string name="check_foot">Walking or running</string>
     <string name="check_bike">Bicycle</string>
     <string name="check_vehicle">Vehicle</string>

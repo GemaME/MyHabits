@@ -1,9 +1,8 @@
-package es.nekosoft.ejercicio01.model;
+package es.nekosoft.myhabits.model;
 
 import java.util.Date;
 
-import es.nekosoft.ejercicio01.R;
-import es.nekosoft.ejercicio01.utils.ConstGeofences;
+import es.nekosoft.myhabits.R;
 
 
 public class LogMH {
@@ -72,7 +71,7 @@ public class LogMH {
 
     public final static int TYPE_WEATHER = 1;
     public final static int TYPE_LOCATION = 2;
-    public final static int TYPE_TRANSPORT = 3;
+    public final static int TYPE_ACTIVITY = 3;
     public final static int TYPE_PLACE = 4;
     public final static int TYPE_UPDATE = 5;
 
@@ -88,7 +87,7 @@ public class LogMH {
             case TYPE_LOCATION:
                 result = R.drawable.location_color;
                 break;
-            case TYPE_TRANSPORT:
+            case TYPE_ACTIVITY:
                 result = R.drawable.car_color;
                 break;
             case TYPE_PLACE:

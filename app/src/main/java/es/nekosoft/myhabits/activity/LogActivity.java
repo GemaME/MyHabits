@@ -1,10 +1,7 @@
-package es.nekosoft.ejercicio01.activity;
+package es.nekosoft.myhabits.activity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,14 +10,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import java.util.List;
 
-import es.nekosoft.ejercicio01.R;
-import es.nekosoft.ejercicio01.dao.LogMHDAO;
-import es.nekosoft.ejercicio01.model.LogMH;
+import es.nekosoft.myhabits.R;
+import es.nekosoft.myhabits.dao.LogMHDAO;
+import es.nekosoft.myhabits.model.LogMH;
 
 public class LogActivity extends AppCompatActivity {
 

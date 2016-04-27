@@ -13,10 +13,10 @@
         android:paddingTop="58dp"
         android:paddingBottom="8dp">
 
-        <include layout="@layout/card_time_weather"></include>
-        <include layout="@layout/card_reload"></include>
+        <include layout="@layout/card_weather"></include>
+        <include layout="@layout/card_update"></include>
         <include layout="@layout/card_location"></include>
-        <include layout="@layout/card_vehicle"></include>
+        <include layout="@layout/card_activity"></include>
         <include layout="@layout/card_places"></include>
 
     </LinearLayout>

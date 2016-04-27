@@ -1,4 +1,4 @@
-package es.nekosoft.ejercicio01.dao;
+package es.nekosoft.myhabits.dao;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import es.nekosoft.ejercicio01.R;
+import es.nekosoft.myhabits.R;
 
 
 public class MyDB extends SQLiteOpenHelper {

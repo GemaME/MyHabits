@@ -1,4 +1,4 @@
-package es.nekosoft.ejercicio01.activity;
+package es.nekosoft.myhabits.activity;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,11 +9,10 @@ import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
-import es.nekosoft.ejercicio01.R;
-import es.nekosoft.ejercicio01.model.LogMH;
+import es.nekosoft.myhabits.R;
+import es.nekosoft.myhabits.model.LogMH;
 
 
 public class LogMHAdapter extends RecyclerView.Adapter<LogMHAdapter.ViewHolder> {

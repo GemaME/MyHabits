@@ -1,4 +1,4 @@
-package es.nekosoft.ejercicio01.service;
+package es.nekosoft.myhabits.service;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -12,10 +12,9 @@ import com.google.android.gms.location.GeofencingEvent;
 import java.util.Date;
 import java.util.List;
 
-import es.nekosoft.ejercicio01.dao.LogMHDAO;
-import es.nekosoft.ejercicio01.model.LogMH;
-import es.nekosoft.ejercicio01.utils.ConstGeofences;
-import es.nekosoft.ejercicio01.utils.Constants;
+import es.nekosoft.myhabits.dao.LogMHDAO;
+import es.nekosoft.myhabits.model.LogMH;
+import es.nekosoft.myhabits.utils.Constants;
 
 
 public class GeofenceIntentService extends IntentService {
@@ -49,7 +48,8 @@ public class GeofenceIntentService extends IntentService {
         if (geofencingEvent.hasError()) {
 
             String errorMessage = getErrorString(geofencingEvent.getErrorCode());
-            sendIntentToMain(Constants.GEO_TYPE_ERROR, errorMessage, null);
+            //sendIntentToMain(Constants.GEO_TYPE_ERROR, errorMessage, null);
+            Log.d(TAG, "Error en el geocercado  " +errorMessage);
             return;
         }
 
@@ -78,7 +78,7 @@ public class GeofenceIntentService extends IntentService {
 
                 //Save info
                 insertInfoLog(id);
-                //sendIntentToMain(Constants.GEO_TYPE, transition, id);
+                sendIntentToMain(transition, id);
             }
         }
     }
@@ -105,10 +105,10 @@ public class GeofenceIntentService extends IntentService {
         return msj;
     }
 
-    private void sendIntentToMain(String type, String transition, String id){
+    private void sendIntentToMain(String transition, String id){
 
-        Intent intent = new Intent(Constants.GEO_ACTION)
-                .putExtra(Constants.GEO_TYPE, type)
+        Intent intent = new Intent(Constants.REC_RESPONSE)
+                .putExtra(Constants.REC_TYPE, Constants.REC_TYPE_GEO)
                 .putExtra(Constants.GEO_TYPE_TRANS, transition)
                 .putExtra(Constants.GEO_ID, id);
 

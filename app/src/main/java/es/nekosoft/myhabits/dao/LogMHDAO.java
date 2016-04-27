@@ -1,4 +1,4 @@
-package es.nekosoft.ejercicio01.dao;
+package es.nekosoft.myhabits.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import es.nekosoft.ejercicio01.model.LogMH;
-import es.nekosoft.ejercicio01.utils.Constants;
+import es.nekosoft.myhabits.model.LogMH;
+import es.nekosoft.myhabits.utils.Constants;
 
 
 public class LogMHDAO {

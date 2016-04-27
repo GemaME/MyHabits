@@ -22,34 +22,34 @@
         android:padding="16dp">
 
         <ImageView
-            android:id="@+id/bullet_title_location"
+            android:id="@+id/iv_bullet_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/location"/>
 
         <TextView
-            android:id="@+id/title_location"
+            android:id="@+id/tv_title_location"
             android:text="@string/title_card_location"
             android:textColor="#FFF"
             android:textSize="24sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/bullet_title_location"/>
+            android:layout_toRightOf="@+id/iv_bullet_location"/>
 
         <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/check_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/title_location"
+            android:layout_below="@+id/tv_title_location"
             />
 
         <TextView
-            android:id="@+id/check_label_location"
+            android:id="@+id/tv_check_location"
             android:text="@string/check_location"
             android:textColor="#FFF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/title_location"
+            android:layout_below="@+id/tv_title_location"
             android:layout_toRightOf="@+id/check_location"/>
 
     </RelativeLayout>

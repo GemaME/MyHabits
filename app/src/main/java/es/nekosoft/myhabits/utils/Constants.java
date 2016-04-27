@@ -1,11 +1,39 @@
-package es.nekosoft.ejercicio01.utils;
+package es.nekosoft.myhabits.utils;
 
 import com.google.android.gms.location.DetectedActivity;
 
-import es.nekosoft.ejercicio01.R;
+import es.nekosoft.myhabits.R;
 
 
 public class Constants {
+
+    //---- SeekBars ----//
+
+    public final static int SB_MAX = 100;
+
+    public final static int SB_MAX_UBI = 60;
+    public final static int SB_MIN_UBI = 5;
+    public final static int SB_INI_UBI = 10;
+
+    public final static int SB_MAX_WTH = 1800;
+    public final static int SB_MIN_WTH = 60;
+    public final static int SB_INI_WTH = 60;
+
+    public final static String SB_SCD = "Every %s seconds";
+    public final static String SB_MIN = "Every %s minutes";
+
+
+    //---- Receiver ----//
+
+    public final static String REC_RESPONSE = "es.nekosoft.RESPONSE";
+    public final static String REC_TYPE = "type";
+    public final static int REC_TYPE_LOC = 1;
+    public final static int REC_TYPE_ACT = 2;
+    public final static int REC_TYPE_GEO = 3;
+    public final static String REC_LAT = "latitude";
+    public final static String REC_LONG = "longitude";
+    public final static String REC_ACTIVITY = "activity";
+    public final static String REC_PERCENT = "percentage";
 
 
     //---- Limit Log ----//

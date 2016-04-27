@@ -22,25 +22,25 @@
         android:padding="16dp">
 
         <ImageView
-            android:id="@+id/bullet_title_vehicle"
+            android:id="@+id/iv_bullet_act"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/car"/>
 
         <TextView
-            android:id="@+id/title_vehicle"
-            android:text="@string/title_card_vehicle"
+            android:id="@+id/tv_title_act"
+            android:text="@string/title_card_act"
             android:textColor="#FFF"
             android:textSize="24sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/bullet_title_vehicle"/>
+            android:layout_toRightOf="@+id/iv_bullet_act"/>
 
         <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/check_transport"
+            android:id="@+id/check_act"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/title_vehicle"
+            android:layout_below="@+id/tv_title_act"
             />
 
         <TextView
@@ -49,8 +49,8 @@
             android:textColor="#FFF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/title_vehicle"
-            android:layout_toRightOf="@+id/check_transport"/>
+            android:layout_below="@+id/tv_title_act"
+            android:layout_toRightOf="@+id/check_act"/>
 
         <!--<android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/check_foot"

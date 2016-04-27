@@ -1,10 +1,10 @@
-package es.nekosoft.ejercicio01.utils;
+package es.nekosoft.myhabits.utils;
 
 
 import java.util.HashMap;
 import java.util.Map;
 
-import es.nekosoft.ejercicio01.model.GeofencesDTO;
+import es.nekosoft.myhabits.model.GeofencesDTO;
 
 public class ConstGeofences {
 

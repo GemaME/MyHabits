@@ -1,4 +1,4 @@
-package es.nekosoft.ejercicio01.model;
+package es.nekosoft.myhabits.model;
 
 /**
  * Created by ladysun on 4/18/2016.

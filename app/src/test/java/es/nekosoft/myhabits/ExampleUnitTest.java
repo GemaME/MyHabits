@@ -1,4 +1,4 @@
-package es.nekosoft.ejercicio01;
+package es.nekosoft.myhabits;
 
 import org.junit.Test;
 
