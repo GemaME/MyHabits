@@ -9,7 +9,7 @@ Applicación para Android de ejemplo para mostrar como se usan y funcionas diver
 
 # Descraga APK
 
-- [Descargue el APK desde aquí](docs/my-habits.apk)
+- [Descargue el APK desde aquí](docs/my-habits.apk) . Hay que dar al botón "raw" para descargarlo.
 
 # Servicios & Herramientas
 
