@@ -86,40 +86,51 @@ public class UbiAsyncTask extends AsyncTask<String, String, String> {
 
         try {
 
-            //Create vars id
-            JSONObject weaJson = new JSONObject();
-            weaJson.put("variable", Sensible.UBI_WTH);
-            JSONObject locJson = new JSONObject();
-            locJson.put("variable", Sensible.UBI_LOC);
-            JSONObject plaJson = new JSONObject();
-            plaJson.put("variable", Sensible.UBI_PLA);
-
-            //Var weather
-            JSONObject weaCon = new JSONObject();
-            weaCon.put("wth", lastWeather);
-            weaCon.put("tmp", lastTemp);
-            weaJson.put("context", weaCon);
-            weaJson.put("value", lastTemp);
-
-            //Var place
-            JSONObject locCon = new JSONObject();
-            locCon.put("lat", lastLat);
-            locCon.put("lng", lastLng);
-            locJson.put("context", locCon);
-            locJson.put("value", lastLat + lastLng);
-
-            //Var place
-            JSONObject plaCon = new JSONObject();
-            plaCon.put("act", lastActivity);
-            plaCon.put("place", lastPlace);
-            plaJson.put("context", plaCon);
-            plaJson.put("value", lastActivity + lastPlace);
-
             //Create body
             JSONArray finalBody = new JSONArray();
-            finalBody.put(weaJson);
-            finalBody.put(locJson);
-            finalBody.put(plaJson);
+
+            //Var weather
+            if(lastWeather != null){
+
+                JSONObject weaJson = new JSONObject();
+                weaJson.put("variable", Sensible.UBI_WTH);
+                JSONObject weaCon = new JSONObject();
+                weaCon.put("wth", lastWeather);
+                weaCon.put("tmp", lastTemp);
+                weaJson.put("context", weaCon);
+                weaJson.put("value", lastTemp);
+                finalBody.put(weaJson);
+            }
+
+            //Var location
+            if(lastLat != -1) {
+
+                JSONObject locJson = new JSONObject();
+                locJson.put("variable", Sensible.UBI_LOC);
+                JSONObject locCon = new JSONObject();
+                locCon.put("lat", lastLat);
+                locCon.put("lng", lastLng);
+                locJson.put("context", locCon);
+                locJson.put("value", lastLat + lastLng);
+                finalBody.put(locJson);
+            }
+
+            //Var place
+            if(lastActivity != -1 || lastPlace != null) {
+
+                JSONObject plaJson = new JSONObject();
+                plaJson.put("variable", Sensible.UBI_PLA);
+                JSONObject plaCon = new JSONObject();
+                if (lastActivity != -1)
+                    plaCon.put("act", lastActivity);
+                if (lastPlace != null)
+                    plaCon.put("place", lastPlace);
+                plaJson.put("context", plaCon);
+                plaJson.put("value", 777);
+                finalBody.put(plaJson);
+            }
+
+            //Final str
             result = finalBody.toString();
 
         } catch (JSONException e) {

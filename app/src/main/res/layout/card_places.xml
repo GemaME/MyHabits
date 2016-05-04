@@ -36,9 +36,36 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iv_bullet_places"/>
 
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/check_places"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title_places"
+            android:buttonTint="@color/colorAccent"/>
+
+        <TextView
+            android:id="@+id/check_tv_places"
+            android:text="@string/check_places"
+            android:textColor="#FFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title_places"
+            android:layout_toRightOf="@+id/check_places"/>
+
+        <ImageButton
+            android:id="@+id/btn_map_places"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_below="@+id/check_places"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/world"
+            android:background="@color/colorAccent"/>
+
 
         <!-- University -->
-        <android.support.v7.widget.AppCompatCheckBox
+        <!--<android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/check_uni_places"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,7 +82,7 @@
             android:layout_toRightOf="@+id/check_uni_places"/>
 
 
-        <!-- Parking -->
+
         <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/check_parking_places"
             android:layout_width="wrap_content"
@@ -72,7 +99,7 @@
             android:layout_toRightOf="@+id/check_parking_places"/>
 
 
-        <!-- Supermarket -->
+
         <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/check_super_places"
             android:layout_width="wrap_content"
@@ -89,7 +116,7 @@
             android:layout_toRightOf="@+id/check_super_places"/>
 
 
-        <!-- Cafe & Bar -->
+
         <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/check_cafebar_places"
             android:layout_width="wrap_content"
@@ -106,7 +133,7 @@
             android:layout_toRightOf="@+id/check_cafebar_places"/>
 
 
-        <!-- Restaurant -->
+
         <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/check_rest_places"
             android:layout_width="wrap_content"
@@ -123,7 +150,7 @@
             android:layout_toRightOf="@+id/check_rest_places"/>
 
 
-        <!-- Main Library -->
+
         <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/check_lib_places"
             android:layout_width="wrap_content"
@@ -140,7 +167,7 @@
             android:layout_toRightOf="@+id/check_lib_places"/>
 
 
-        <!-- Tram stop -->
+
         <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/check_tram_places"
             android:layout_width="wrap_content"
@@ -154,7 +181,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/check_lib_places"
-            android:layout_toRightOf="@+id/check_tram_places"/>
+            android:layout_toRightOf="@+id/check_tram_places"/> -->
 
 
     </RelativeLayout>

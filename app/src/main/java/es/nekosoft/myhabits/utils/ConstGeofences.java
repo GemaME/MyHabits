@@ -1,7 +1,10 @@
 package es.nekosoft.myhabits.utils;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import es.nekosoft.myhabits.model.GeofencesDTO;
@@ -45,25 +48,42 @@ public class ConstGeofences {
     public final static String TRAM_ID_02 = "San Vicent del Raspeig";
     public final static GeofencesDTO tram_02 = new GeofencesDTO(TRAM_ID_02, 38.39203025695036, -0.5169796943664551, GeofencesDTO.RADIUS_SMALL, GeofencesDTO.TYPE_TRAM);
 
-    public static final Map<String, GeofencesDTO> mapGeoDTO;
+    public static final List<GeofencesDTO> geoList;
+    public static final List<String> removeList;
+
     static
     {
-        mapGeoDTO = new HashMap<String, GeofencesDTO>();
-        mapGeoDTO.put(UNI_ID_01, uni_01);
-        mapGeoDTO.put(PARKING_ID_01, parking_01);
-        mapGeoDTO.put(PARKING_ID_02, parking_02);
-        mapGeoDTO.put(SUPER_ID_01, super_01);
-        mapGeoDTO.put(SUPER_ID_02, super_02);
-        mapGeoDTO.put(SUPER_ID_03, super_03);
-        mapGeoDTO.put(CAFEBAR_ID_01, cafebar_01);
-        mapGeoDTO.put(CAFEBAR_ID_02, cafebar_02);
-        mapGeoDTO.put(RESTAURANT_ID_01, restaurant_01);
-        mapGeoDTO.put(RESTAURANT_ID_02, restaurant_02);
-        mapGeoDTO.put(RESTAURANT_ID_03, restaurant_03);
-        mapGeoDTO.put(RESTAURANT_ID_04, restaurant_04);
-        mapGeoDTO.put(LIBRARY_ID_01, library_id_01);
-        mapGeoDTO.put(TRAM_ID_01, tram_01);
-        mapGeoDTO.put(TRAM_ID_02, tram_02);
+        geoList = new ArrayList<GeofencesDTO>();
+        geoList.add(uni_01);
+        geoList.add(parking_01);
+        geoList.add(parking_02);
+        geoList.add(super_01);
+        geoList.add(super_02);
+        geoList.add(super_03);
+        geoList.add(cafebar_01);
+        geoList.add(cafebar_02);
+        geoList.add(restaurant_01);
+        geoList.add(restaurant_02);
+        geoList.add(restaurant_03);
+        geoList.add(restaurant_04);
+        geoList.add(library_id_01);
+        geoList.add(tram_01);
+        geoList.add(tram_02);
+
+        removeList = new ArrayList<String>();
+        removeList.add(UNI_ID_01);
+        removeList.add(SUPER_ID_01);
+        removeList.add(SUPER_ID_02);
+        removeList.add(SUPER_ID_03);
+        removeList.add(CAFEBAR_ID_01);
+        removeList.add(CAFEBAR_ID_02);
+        removeList.add(RESTAURANT_ID_01);
+        removeList.add(RESTAURANT_ID_02);
+        removeList.add(RESTAURANT_ID_03);
+        removeList.add(RESTAURANT_ID_04);
+        removeList.add(LIBRARY_ID_01);
+        removeList.add(TRAM_ID_01);
+        removeList.add(TRAM_ID_02);
     }
 
 }

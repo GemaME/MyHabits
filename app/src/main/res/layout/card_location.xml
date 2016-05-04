@@ -52,6 +52,55 @@
             android:layout_below="@+id/tv_title_location"
             android:layout_toRightOf="@+id/check_location"/>
 
+
+        <TextView
+            android:id="@+id/tv_title_mode_location"
+            android:text="Mode"
+            android:textSize="20sp"
+            android:textColor="#FFF"
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/check_location"/>
+
+        <RadioGroup
+            android:id="@+id/radio_mode_location"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/tv_title_mode_location">
+
+            <RadioButton
+                android:id="@+id/check_balance_location"
+                android:text="@string/check_balance_location"
+                android:textColor="#FFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+            <RadioButton
+                android:id="@+id/check_accu_location"
+                android:text="@string/check_accu_location"
+                android:textColor="#FFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+            <RadioButton
+                android:id="@+id/check_low_location"
+                android:text="@string/check_low_location"
+                android:textColor="#FFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+            <RadioButton
+                android:id="@+id/check_nop_location"
+                android:text="@string/check_nop_location"
+                android:textColor="#FFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+        </RadioGroup>
+
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

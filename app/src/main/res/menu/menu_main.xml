@@ -4,16 +4,32 @@
     tools:context=".activity.MainActivity">
 
     <item
-        android:id="@+id/action_internet"
+        android:id="@+id/action_map"
         android:orderInCategory="100"
-        android:title="@string/menu_internet"
-        android:icon="@drawable/browser"
+        android:title="@string/menu_map"
+        android:icon="@drawable/earth"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_table"
+        android:orderInCategory="100"
+        android:title="@string/menu_table"
+        android:icon="@drawable/table"
+        app:showAsAction="always">
+
+        <menu>
+            <item
+                android:id="@+id/action_weather"
+                android:title="@string/menu_weather" />
+            <item
+                android:id="@+id/action_place"
+                android:title="@string/menu_place" />
+        </menu>
+    </item>
     <item
         android:id="@+id/action_log"
         android:orderInCategory="100"
         android:title="@string/menu_log"
-        android:icon="@drawable/clipboard"
+        android:icon="@drawable/research"
         app:showAsAction="always" />
 
 </menu>

@@ -4,7 +4,10 @@
 
     <string name="menu_reload">Reload</string>
     <string name="menu_delete">Delete</string>
-    <string name="menu_internet">Ubidots</string>
+    <string name="menu_table">Table</string>
+    <string name="menu_weather">weather info</string>
+    <string name="menu_place">place info</string>
+    <string name="menu_map">Map</string>
     <string name="menu_log">Log</string>
 
     <string name="dialog_delete_title">Delete all entries</string>
@@ -23,6 +26,10 @@
 
     <string name="title_card_location">User location</string>
     <string name="check_location">Send location info</string>
+    <string name="check_balance_location">Balance Power</string>
+    <string name="check_accu_location">High Accuracy</string>
+    <string name="check_low_location">Low Power</string>
+    <string name="check_nop_location">Zero power</string>
 
     <string name="title_card_act">Activity</string>
     <string name="check_foot">Walking or running</string>
@@ -53,4 +60,9 @@
     <string name="err_google_api_connect">Oh man! We cannot conect to Google APIs</string>
     <string name="title_activity_log">LogActivity</string>
     <string name="title_activity_web">WebActivity</string>
+    <string name="balance_prio_location">Change mode to PRIORITY_BALANCED_POWER_ACCURACY</string>
+    <string name="accu_prio_location">Change mode to PRIORITY_HIGH_ACCURACY</string>
+    <string name="low_prio_location">Change mode to PRIORITY_LOW_POWER</string>
+    <string name="nop_prio_location">Change mode to PRIORITY_NO_POWER</string>
+    <string name="err_google_api_suspended">Google API conection was suspended</string>
 </resources>

@@ -1,23 +1,29 @@
 package es.nekosoft.myhabits.utils;
 
 import com.google.android.gms.location.DetectedActivity;
+import com.google.android.gms.location.LocationRequest;
 
 import es.nekosoft.myhabits.R;
 
 
 public class Constants {
 
+    //---- Web ----//
+
+    public final static String BROW_URL = "url";
+
+
     //---- SeekBars ----//
 
     public final static int SB_MAX = 100;
 
     public final static int SB_MAX_UBI = 60;
-    public final static int SB_MIN_UBI = 5;
+    public final static int SB_MIN_UBI = 10;
     public final static int SB_INI_UBI = 10;
 
     public final static int SB_MAX_WTH = 1800;
-    public final static int SB_MIN_WTH = 60;
-    public final static int SB_INI_WTH = 60;
+    public final static int SB_MIN_WTH = 30;
+    public final static int SB_INI_WTH = 30;
 
     public final static String SB_SCD = "Every %s seconds";
     public final static String SB_MIN = "Every %s minutes";
@@ -44,6 +50,8 @@ public class Constants {
     //---- Location ----//
 
     public static String LOC_ACTION = "es.nekosoft.GEOFENCING";
+    public static int LOC_MODE = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY;
+    public static int LOC_ID_VIEW_MODE = R.id.check_balance_location;
     public static int LOC_INTERVAL = 10000;
     public static int LOC_FAST_INTERVAL = 1000;
 

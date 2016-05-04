@@ -43,6 +43,7 @@ public class LocationIntentService extends IntentService {
 
         //Create log entry
         String coordStr = "Lat: " +loc.getLatitude()+ " - Long: " + loc.getLongitude();
+        Log.d("Status location", coordStr);
         insertInfoLog(coordStr);
 
         //Send info to MainActivity

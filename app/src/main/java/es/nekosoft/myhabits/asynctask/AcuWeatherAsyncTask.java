@@ -33,6 +33,7 @@ public class AcuWeatherAsyncTask extends AsyncTask<String, String, String> {
         this.act = act;
         this.tvWeather = tvWeather;
         this.tvTemperature = tvTemperature;
+        Log.d("AccuW", "creo info");
     }
 
 

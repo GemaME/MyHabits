@@ -1,104 +1,83 @@
 package es.nekosoft.myhabits.activity;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.ActivityRecognition;
-import com.google.android.gms.location.Geofence;
-import com.google.android.gms.location.GeofencingRequest;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeoutException;
 
+import es.nekosoft.myhabits.activity.googleApis.ActivityApi;
+import es.nekosoft.myhabits.activity.googleApis.GeofencingApi;
+import es.nekosoft.myhabits.activity.googleApis.LocationApi;
 import es.nekosoft.myhabits.asynctask.AcuWeatherAsyncTask;
 import es.nekosoft.myhabits.asynctask.UbiAsyncTask;
-import es.nekosoft.myhabits.service.ActivityIntentService;
-import es.nekosoft.myhabits.service.LocationIntentService;
+import es.nekosoft.myhabits.receiver.MainReciever;
 import es.nekosoft.myhabits.utils.ConstGeofences;
 import es.nekosoft.myhabits.utils.Constants;
-import es.nekosoft.myhabits.service.GeofenceIntentService;
-import es.nekosoft.myhabits.model.GeofencesDTO;
-import es.nekosoft.myhabits.receiver.MainReciever;
 import es.nekosoft.myhabits.R;
 import es.nekosoft.myhabits.utils.Sensible;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, ResultCallback<Status>,
-        CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
+        GoogleApiClient.OnConnectionFailedListener {
+
+
+    //---- Atributes ----//
 
     GoogleApiClient mGoogleApiClient;
-    List<CheckBox> checkList;
+    LocationApi locationApi;
+    GeofencingApi geofencingApi;
+    ActivityApi activityApi;
+
+    public String lastWeather = null;
+    public double lastTemp = -1;
+    float lastLatitude = -1;
+    float lastLongitude = -1;
+    int lastActivity = -1;
+    String lastPlace = null;
 
     int progUbi;
     int progWeather;
 
-    public String lastWeather = "";
-    public double lastTemp = 0;
-    float lastLatitude = 0;
-    float lastLongitude = 0;
-    int lastActivity = 0;
-    String lastPlace = "";
-
     SeekBar sbTimeWeatherUpdate;
-    TextView sbTvTimeWeatherUpdate;
     SeekBar sbUbiUpdate;
+    TextView sbTvTimeWeatherUpdate;
     TextView sbTvUbiUpdate;
-
     TextView tvWeather;
     TextView tvTemperature;
+    RadioGroup radioModeLocation;
+    List<CheckBox> checkList;
+    MainActivityEvent maEvent;
+
+    boolean swWeather = true;
+    boolean swLocation = true;
+    boolean swActivity = true;
+    boolean swPlaces = true;
 
 
-    //---- Activity Life Cycle ---//
+    //---- Activity LifeCycle ---//
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setupToolbar();
         setupSeekBarS();
 
-        //Google APIs
+        //Create GoogleApi client
         setupGoogleApi();
     }
 
@@ -147,23 +126,36 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         //Prepare recieve msgs from services
         prepareBroadcast();
 
-        //Setups Google apis
-        setupLocation();
-        setupGeofencing();
-        setupGoogleActivities();
+        //Create intances to manage the Google API services
+        locationApi = new LocationApi(this, mGoogleApiClient);
+        geofencingApi = new GeofencingApi(this, mGoogleApiClient);
+        activityApi = new ActivityApi(this, mGoogleApiClient);
 
-        //Show initial weather
-        getLocation();
-        if(lastLatitude != 0)reqAcuW();
+        //Setup cards functionality
+        if(swWeather){
 
-        //Init timers
-        handlerAcuW.post(runnableAcuW);
+            float[] location = locationApi.getLocation();
+            lastLatitude = location[0];
+            lastLongitude = location[1];
+
+            if(lastLatitude != 0) reqOpenW();
+            handlerOpenW.post(runnableOpenW);
+        }
+        if(swLocation)locationApi.setupLocation(Constants.LOC_MODE);
+        if(swActivity) activityApi.setupGoogleActivities();
+        if(swPlaces)geofencingApi.addGeofences(geofencingApi.getGeofenceList(ConstGeofences.geoList));
+
+        //Init ubidots sending timer
         handlerUbidots.post(runnableUbidots);
     }
 
     @Override
     public void onConnectionSuspended(int i) {
 
+        //Disable checkbuttons
+        disableChecks();
+        //Inform to user about the problem
+        Toast.makeText(getBaseContext(), R.string.err_google_api_suspended, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -176,9 +168,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
 
-    //---- Setup Componentes ----//
+    //---- Setup UI components ----//
 
     private void getViews() {
+
+        //This class respond to different views events
+        maEvent = new MainActivityEvent(this);
 
         sbTimeWeatherUpdate = (SeekBar) findViewById(R.id.sb_time_weather_update);
         sbTvTimeWeatherUpdate = (TextView) findViewById(R.id.sb_tv_time_weather_update);
@@ -187,6 +182,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         tvWeather = (TextView) findViewById(R.id.tv_weather);
         tvTemperature = (TextView) findViewById(R.id.tv_temperature);
+
+        radioModeLocation = (RadioGroup) findViewById(R.id.radio_mode_location);
+        radioModeLocation.check(Constants.LOC_ID_VIEW_MODE);
+        radioModeLocation.setOnCheckedChangeListener(maEvent);
     }
 
     private void setupToolbar() {
@@ -195,95 +194,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setSupportActionBar(toolbar);
     }
 
-    private void setupSeekBarS(){
-
-        int progUbiSb = setupSeekBar(sbUbiUpdate, Constants.SB_MAX_WTH, Constants.SB_MIN_WTH, Constants.SB_INI_WTH);
-        int proWthSb = setupSeekBar(sbTimeWeatherUpdate, Constants.SB_MAX_UBI, Constants.SB_MIN_UBI, Constants.SB_INI_UBI);
-
-        progUbi = showProgreesSb(sbTvUbiUpdate, progUbiSb, Constants.SB_MAX_UBI, Constants.SB_MIN_UBI);
-        progWeather = showProgreesSb(sbTvTimeWeatherUpdate, proWthSb, Constants.SB_MAX_WTH, Constants.SB_MIN_WTH);
-    }
-
-    private int setupSeekBar(SeekBar sb, int sbMax, int sbMin, int sbIni) {
-
-        //Set progress
-        int progSB = sbIni * 100 / (sbMax - sbMin);
-        sb.setProgress(progSB);
-
-        //Set event
-        sb.setOnSeekBarChangeListener(this);
-
-        return progSB;
-    }
-
-    private int showProgreesSb(TextView tvSb, int progress, int sbMax, int sbMin){
-
-        //Msg info
-        int progText = progress * (sbMax - sbMin) / 100;
-        String str = (progText + sbMin) + "";
-        tvSb.setText(String.format(Constants.SB_SCD, str));
-
-        return progText;
-    }
-
-
-    //---- Ubidots ----//
-
-    Handler handlerUbidots = new Handler();
-    Runnable runnableUbidots = new Runnable() {
-        @Override
-        public void run() {
-
-            //Get info
-            UbiAsyncTask ubi = new UbiAsyncTask(lastWeather, lastTemp, lastLatitude, lastLongitude, lastActivity, lastPlace);
-            String url = String.format(Sensible.URL_UBI, Sensible.KEY_UBI);
-            ubi.execute(url);
-
-            //Set next call
-            handlerUbidots.postDelayed(runnableUbidots, progUbi * 1000);
-        }
-    };
-
-
-    //---- AcuWeather ----//
-
-    private void reqAcuW() {
-
-        AcuWeatherAsyncTask acuW = new AcuWeatherAsyncTask(MainActivity.this, tvWeather, tvTemperature);
-        String url = String.format(Sensible.URL_OPEN_WTH, lastLatitude, lastLongitude, Sensible.KEY_OPEN_WTH);
-        acuW.execute(url);
-    }
-
-    Handler handlerAcuW = new Handler();
-    Runnable runnableAcuW = new Runnable() {
-        @Override
-        public void run() {
-
-            //Get AcuWeather info
-            if (lastLatitude != 0) reqAcuW();
-            //Set next call
-            handlerAcuW.postDelayed(runnableAcuW, progWeather * 1000);
-        }
-    };
-
-
-    //---- CheckBoxes ----//
-
     private void getChecks() {
 
         //Get checkbuttons
+        CardView weather = (CardView) findViewById(R.id.card_time_weather);
         CardView location = (CardView) findViewById(R.id.card_location);
         CardView trasport = (CardView) findViewById(R.id.card_vehicle);
         CardView places = (CardView) findViewById(R.id.card_places);
 
         checkList = new ArrayList<CheckBox>();
+        getChecksByParent((ViewGroup) weather.getChildAt(0));
         getChecksByParent((ViewGroup) location.getChildAt(0));
         getChecksByParent((ViewGroup) trasport.getChildAt(0));
         getChecksByParent((ViewGroup) places.getChildAt(0));
 
-        //Stablish event
+        //Who is responding to the events?
         for (int i = 0; i < checkList.size(); i++)
-            checkList.get(i).setOnCheckedChangeListener(this);
+            checkList.get(i).setOnCheckedChangeListener(maEvent);
     }
 
     private void disableChecks() {
@@ -305,197 +232,92 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+    //These are generic methods to manage sekbars related to time controller
+    private void setupSeekBarS(){
 
+        int progUbiSb = setupSeekBar(sbUbiUpdate, Constants.SB_MAX_UBI, Constants.SB_MIN_UBI, Constants.SB_INI_UBI);
+        int proWthSb = setupSeekBar(sbTimeWeatherUpdate, Constants.SB_MAX_WTH, Constants.SB_MIN_WTH, Constants.SB_INI_WTH);
+
+        progUbi = showProgreesSb(sbTvUbiUpdate, progUbiSb, Constants.SB_MAX_UBI, Constants.SB_MIN_UBI);
+        progWeather = showProgreesSb(sbTvTimeWeatherUpdate, proWthSb, Constants.SB_MAX_WTH, Constants.SB_MIN_WTH);
+    }
+
+    public int setupSeekBar(SeekBar sb, int sbMax, int sbMin, int sbIni) {
+
+        //Set progress
+        int progSB = ((sbIni - sbMin) * 100 / (sbMax - sbMin));
+        sb.setProgress(progSB);
+
+        //Set event
+        sb.setOnSeekBarChangeListener(maEvent);
+
+        return progSB;
+    }
+
+    public int showProgreesSb(TextView tvSb, int progress, int sbMax, int sbMin){
+
+        //Msg info
+        int prog = (progress * (sbMax - sbMin) / 100) + sbMin;
+        String str = prog + "";
+        tvSb.setText(String.format(Constants.SB_SCD, str));
+
+        return prog;
     }
 
 
-    //---- Location ----//
+    //---- Ubidots timer ----//
 
-    private void setupLocation() {
+    Handler handlerUbidots = new Handler();
+    Runnable runnableUbidots = new Runnable() {
+        @Override
+        public void run() {
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+            //Send info to ubidots
+            if(lastWeather != null || lastTemp != -1 || lastLatitude != -1 || lastLongitude != -1 ||
+                    lastActivity != -1 || lastPlace != null){
+
+                UbiAsyncTask ubi = new UbiAsyncTask(lastWeather, lastTemp, lastLatitude, lastLongitude, lastActivity, lastPlace);
+                String url = String.format(Sensible.URL_UBI, Sensible.KEY_UBI);
+                ubi.execute(url);
+            }
+
+            //Set next call
+            handlerUbidots.postDelayed(runnableUbidots, progUbi * 1000);
         }
-        LocationRequest mLocationRequest = createLocationRequest(Constants.LOC_INTERVAL, Constants.LOC_FAST_INTERVAL, LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, getLocationPendingIntent()).setResultCallback(this);
+    };
+
+
+    //---- OpenWeather timer ----//
+
+    private void reqOpenW() {
+
+        AcuWeatherAsyncTask acuW = new AcuWeatherAsyncTask(MainActivity.this, tvWeather, tvTemperature);
+        String url = String.format(Sensible.URL_OPEN_WTH, lastLatitude, lastLongitude, Sensible.KEY_OPEN_WTH);
+        acuW.execute(url);
     }
 
-    private void removeLocation() {
+    Handler handlerOpenW = new Handler();
+    Runnable runnableOpenW= new Runnable() {
+        @Override
+        public void run() {
 
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, getLocationPendingIntent()).setResultCallback(this);
-    }
-
-    private LocationRequest createLocationRequest(int interval, int fastest, int priority) {
-
-        LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(interval);
-        mLocationRequest.setFastestInterval(fastest);
-        mLocationRequest.setPriority(priority);
-
-        return mLocationRequest;
-    }
-
-    private PendingIntent getLocationPendingIntent() {
-
-        Intent intent = new Intent(this, LocationIntentService.class);
-        return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
-    private void getLocation() {
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+            //Before getting info, we have to check the switch
+            if(swWeather) {
+                reqOpenW();
+                handlerOpenW.postDelayed(runnableOpenW, progWeather * 1000);
+            }
         }
-        Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (lastLocation != null) {
-
-            lastLatitude = (float) lastLocation.getLatitude();
-            lastLongitude = (float) lastLocation.getLongitude();
-        }
-    }
+    };
 
 
-    //---- Geofencing ----//
+    //---- Receiver from Google API Services ----//
 
-    private void setupGeofencing() {
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        LocationServices.GeofencingApi.addGeofences(
-                mGoogleApiClient,
-                getGeofencingRequest(),
-                getGeofencePendingIntent()
-        ).setResultCallback(this);
-
-    }
-
-    private void removeGeofencing(List<String> ids) {
-
-        LocationServices.GeofencingApi.removeGeofences(
-                mGoogleApiClient,
-                ids
-        ).setResultCallback(this);
-
-    }
-
-    @Override
-    public void onResult(@NonNull Status status) {
-
-    }
-
-    private GeofencingRequest getGeofencingRequest() {
-
-        //Geofence list
-        List<Geofence> geofenceList = geofenceList();
-
-        //Setup monitor for geofencings
-        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
-        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
-        builder.addGeofences(geofenceList);
-        return builder.build();
-    }
-
-    private List<Geofence> geofenceList(){
-
-        List<Geofence> list = new ArrayList<Geofence>();
-
-        for (Map.Entry<String, GeofencesDTO> ele : ConstGeofences.mapGeoDTO.entrySet()) {
-
-            list.add(new Geofence.Builder()
-
-                    .setRequestId(ele.getValue().getId())
-                    .setCircularRegion(
-                            ele.getValue().getLatitude(),
-                            ele.getValue().getLongitude(),
-                            ele.getValue().getRadius()
-                    )
-                    .setExpirationDuration(Constants.GEO_EXP_MS)
-                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
-                    .build());
-        }
-
-        return list;
-    }
-
-    private PendingIntent getGeofencePendingIntent() {
-
-        //Create PendingIntent
-        Intent intent = new Intent(this, GeofenceIntentService.class);
-        // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when
-        // calling addGeofences() and removeGeofences().
-        return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
-
-    //---- Google activities ----//
-
-    private void setupGoogleActivities(){
-
-        ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(
-                mGoogleApiClient,
-                Constants.ACT_DETECT_INTERV_MS,
-                getGoogleActivitiesPendingIntent()
-        ).setResultCallback(this);
-    }
-
-    private void removeGoogleActivities(){
-
-        ActivityRecognition.ActivityRecognitionApi.removeActivityUpdates(
-                mGoogleApiClient,
-                getGoogleActivitiesPendingIntent()
-        ).setResultCallback(this);
-    }
-
-    private PendingIntent getGoogleActivitiesPendingIntent(){
-
-        Intent intent = new Intent(this, ActivityIntentService.class);
-        return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
-
-    //---- Receiver ----//
-
+    //Our BroadcastReciever gets all Google API services responds
     private void prepareBroadcast() {
 
-        ActivityReceiver receiver = new ActivityReceiver();
+        MainReciever receiver = new MainReciever(this);
         IntentFilter intentFilter = new IntentFilter(Constants.REC_RESPONSE);
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, intentFilter);
-    }
-
-    private class ActivityReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            int type = intent.getIntExtra(Constants.REC_TYPE, 0);
-
-            //We recieve info about location
-            if (type == Constants.REC_TYPE_LOC) {
-
-                lastLatitude = intent.getFloatExtra(Constants.REC_LAT, 0);
-                lastLongitude = intent.getFloatExtra(Constants.REC_LONG, 0);
-                Log.d("DEBUG", "Update location info in MainActivity: " +lastLatitude + " - " +lastLongitude);
-            }
-
-            //We recieve info about the activity
-            else if (type == Constants.REC_TYPE_ACT) {
-
-                lastActivity = intent.getIntExtra(Constants.REC_ACTIVITY, 0);
-                int percent = intent.getIntExtra(Constants.REC_PERCENT, 0);
-                Log.d("DEBUG", "Update activity info in MainActivity: " +lastActivity);
-            }
-
-            //We recieve info about the geofencing
-            else if (type == Constants.REC_TYPE_GEO) {
-
-                lastPlace = intent.getStringExtra(Constants.GEO_ID);
-                Log.d("DEBUG", "Update location info in MainActivity: " +lastPlace);
-            }
-        }
     }
 
 
@@ -513,42 +335,81 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         int id = item.getItemId();
 
-        if(id == R.id.action_log){
-            startActivity(new Intent(this, LogActivity.class));
-        }
-        else if(id == R.id.action_internet){
-            startActivity(new Intent(this, WebActivity.class));
+        switch (id){
+
+            case R.id.action_log:
+                startActivity(new Intent(this, LogActivity.class));
+                break;
+            case R.id.action_weather:
+                openBrowser(Sensible.URL_TABLE_WTH);
+                break;
+            case R.id.action_place:
+                openBrowser(Sensible.URL_TABLE_PLA);
+                break;
+            case R.id.action_map:
+                openBrowser(Sensible.URL_LOC);
+                break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void openBrowser(String url){
 
-    //---- SeekBar ----//
-
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-        int id = seekBar.getId();
-
-        if(id == R.id.sb_time_weather_update){
-
-            progWeather = showProgreesSb(sbTvTimeWeatherUpdate, progress, Constants.SB_MAX_WTH, Constants.SB_MIN_WTH);
-        }
-        else if(id == R.id.sb_ubi_update){
-
-            progUbi = showProgreesSb(sbTvUbiUpdate, progress, Constants.SB_MAX_UBI, Constants.SB_MIN_UBI);
-        }
+        Intent i = new Intent(this, WebActivity.class);
+        i.putExtra(Constants.BROW_URL, url);
+        startActivity(i);
     }
 
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
 
+    //---- Getter & Setters ----//
+
+    public String getLastWeather() {
+        return lastWeather;
     }
 
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
+    public void setLastWeather(String lastWeather) {
+        this.lastWeather = lastWeather;
+    }
 
+    public double getLastTemp() {
+        return lastTemp;
+    }
+
+    public void setLastTemp(double lastTemp) {
+        this.lastTemp = lastTemp;
+    }
+
+    public float getLastLatitude() {
+        return lastLatitude;
+    }
+
+    public void setLastLatitude(float lastLatitude) {
+        this.lastLatitude = lastLatitude;
+    }
+
+    public float getLastLongitude() {
+        return lastLongitude;
+    }
+
+    public void setLastLongitude(float lastLongitude) {
+        this.lastLongitude = lastLongitude;
+    }
+
+    public int getLastActivity() {
+        return lastActivity;
+    }
+
+    public void setLastActivity(int lastActivity) {
+        this.lastActivity = lastActivity;
+    }
+
+    public String getLastPlace() {
+        return lastPlace;
+    }
+
+    public void setLastPlace(String lastPlace) {
+        this.lastPlace = lastPlace;
     }
 
 }

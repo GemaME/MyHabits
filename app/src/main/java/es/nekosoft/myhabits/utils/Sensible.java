@@ -8,6 +8,9 @@ public class Sensible {
 
     public final static String URL_OPEN_WTH = "http://api.openweathermap.org/data/2.5/weather?lat=%1$s&lon=%2$s&APPID=%3$s";
     public final static String URL_UBI = "http://things.ubidots.com/api/v1.6/collections/values/?token=%1$s";
+    public final static String URL_TABLE_WTH = "https://app.ubidots.com/ubi/getchart/page/14TohXlLZcYl4QdCwFcdgwAW4cw";
+    public final static String URL_TABLE_PLA = "https://app.ubidots.com/ubi/getchart/page/_JXDZQ2zaNWJV0rN_hf5mtn5Ra0";
+    public final static String URL_LOC = "https://app.ubidots.com/ubi/getchart/page/CB8aDmPEaIkSr8wdrwprc7WJ9vM";
 
     public final static String UBI_PLA = "5717bd367625424ab0dcd815";
     public final static String UBI_WTH = "5717bd467625424b091e3c0f";
