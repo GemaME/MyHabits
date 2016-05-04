@@ -1,4 +1,7 @@
 # My Habits
+
+<img src="/docs/pic.png" height=600/>
+
 Applicación para Android de ejemplo para mostrar como se usan y funcionas diversos servicios de Google para Android (localización, detección de actividades y comprobar si el usuario esta dentro de una zona geográfica concreta). También hay un par de ejemplos de consumo de servicios REST, entre ellos se destaca en envío de información a tu cuenta de Ubidots. Este servicio web permite envio masivo y cíclico de información que posteriormente podemos formatearla en gráficas, tablas, crear eventos para que avisen otras aplicaciones, etc.
 
 # Requisitos alcanzados (asignatura de Optimización del Master)
